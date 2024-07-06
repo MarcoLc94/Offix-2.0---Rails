@@ -1,0 +1,28 @@
+<div>
+  <p>
+    <strong><%= @department.name %></strong>
+  </p>
+  <p>
+    <%= @department.description %>
+  </p>
+  <%= link_to  "New employee", "/employees/new" %>
+</div>
+<div>
+  <% if @department.employees.empty? %>
+    <p>No employees yet</p>
+  <% end %>
+</div>
+<div>
+  <% @department.employees.each do |employee| %>
+    <%= render "employees/employee_card", employee: employee %>
+  <%end%>
+</div>
+<h3>Feedbacks</h3>
+<%= render "feedbacks/form", { feedback: Feedback.new, feedbackable: @department} %>
+<div>
+  <% @department.receive_feedbacks.each do |feedback|%>
+    <p>By <%= feedback.employee.name %></p>
+    <p><%= feedback.body %></p>
+    <%= button_to "Destroy", feedback, method: :delete %>
+  <%end%>
+</div>

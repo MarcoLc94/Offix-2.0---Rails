@@ -1,0 +1,55 @@
+<%= form_with(model: employee, url: "/new_employee", method: :post) do |form| %>
+  <% if employee.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
+      <ul>
+        <% employee.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+  <div>
+    <%= form.label :nationality, style: "display: block" %>
+    <%= form.text_field :nationality %>
+  </div>
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+  <div>
+    <%= form.label :password, style: "display: block" %>
+    <%= form.password_field :password %>
+  </div>
+  <div>
+    <%= form.label :position, style: "display: block" %>
+    <%= form.text_field :position %>
+  </div>
+  <div>
+    <%= form.label :birth_date, style: "display: block" %>
+    <%= form.date_field :birth_date %>
+  </div>
+  <div>
+    <%= form.label :role, style: "display: block" %>
+    <%= form.number_field :role %>
+  </div>
+  <div>
+    <%= form.label :department_id, style: "display: block" %>
+    <%= form.collection_select :department_id, Department.order(:name), :id, :name%>
+  </div>
+  <div>
+    <%= form.label :manager_id, style: "display: block" %>
+    <%= form.collection_select :manager_id, employee.id ? Employee.where(" id != ? ",employee.id) : Employee.order(:name), :id, :name, include_blank: "No Manager"%>
+  </div>
+  <div>
+    <%= form.label :avatar, style: "display: block" %>
+    <%= form.file_field :avatar %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,52 @@
+<div id="<%= dom_id employee %>">
+  <div>
+    <% if employee.avatar.attached? %>
+      <%= image_tag employee.avatar, alt: "Avatar image", style:"width: 90px" %>
+    <%end%>
+  </div>
+  <p>
+    <strong><%= employee.name %></strong>
+  </p>
+  <p>
+    <%= employee.position %>
+  </p>
+  <p>
+    <%= employee.department.name %>
+  </p>
+  <p>
+    <%= employee.nationality %>
+  </p>
+  <p>
+    <% if employee.birth_date %>
+      <%= ((Time.zone.now - employee.birth_date.to_time)/1.year.seconds).floor%> years
+    <%else%>
+      unknow years
+    <%end%>
+  </p>
+  <%= link_to  "Edit", edit_employee_path(employee) %>
+  <%= button_to  "Destroy", employee, method: :delete %>
+  <div>
+    <strong>Manager:</strong>
+    <% if employee.manager %>
+      <%=render "employee_card", employee: employee.manager %>
+    <%else%>
+      No Manager
+    <%end%>
+  </div>
+  <div>
+    <strong>Reports:</strong>
+    <% employee.reports.each do |report|%>
+      <%=render "employee_card", employee: report %>
+    <%end%>
+    <% employee.reports.empty? ? "No reports" : ""%>
+  </div>
+  <h3>Feedbacks</h3>
+  <%= render "feedbacks/form", { feedback: Feedback.new, feedbackable: employee} %>
+  <div>
+    <% employee.receive_feedbacks.each do |feedback|%>
+      <p>By <%= feedback.employee.name %></p>
+      <p><%= feedback.body %></p>
+      <%= button_to "Destroy", feedback, method: :delete %>
+    <%end%>
+  </div>
+</div>

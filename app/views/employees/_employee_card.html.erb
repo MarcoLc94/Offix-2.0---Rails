@@ -1,0 +1,12 @@
+<div>
+  <% if employee.avatar.attached? %>
+    <div>
+      <%= image_tag employee.avatar, alt:"Employee avatar", style: "width:80px" %>
+    </div>
+  <% end %>
+  <p><%= employee.name %></p>
+  <p><%= employee.position %></p>
+  <%= link_to  "Show", employee %>
+  <%= link_to  "Edit", edit_employee_path(employee) %>
+  <%= link_to  "Destroy", employee_path(employee), data: { turbo_method: :delete, confirm: "Are you sure?" } %>
+</div>
